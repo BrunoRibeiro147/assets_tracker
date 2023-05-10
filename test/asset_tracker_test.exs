@@ -108,6 +108,18 @@ defmodule AssetTrackerTest do
                   }
                 ]
               }, ^gain_or_loss} = AssetTracker.add_sale(symbol, sell_date, quantity, unit_price)
+
+      assert [
+               {"sells",
+                [
+                  %{
+                    quantity: 5,
+                    sell_date: ~N[2023-05-10 10:00:00],
+                    symbol: "ASD",
+                    unit_price: 10
+                  }
+                ]}
+             ] = :ets.lookup(:asset_tracker, "sells")
     end
 
     test "should return an error when pass a quantity greater that the purchase quantity", %{
